@@ -1,0 +1,41 @@
+---
+title: "The Anatomy of a Distributed System"
+author: "Rajdeep Singha"
+date: 2026-06-20
+type: article
+category: "Engineering"
+tags: [distributed-systems, architecture, consistency]
+estimated_read_time: 10
+is_own_work: true
+gists:
+  quick: "Distributed systems trade consistency for availability. At their core, every distributed system must answer three questions: how do nodes discover each other, how do they agree on state (consensus), and what happens when the network partitions? Understanding CAP theorem — that you can only guarantee two of consistency, availability, and partition tolerance — is the foundation for reasoning about every design decision in distributed systems."
+  medium: "Distributed systems are collections of independent nodes that appear to users as a single coherent system. The field is defined by the problems that emerge from this illusion: nodes fail, networks partition, clocks drift, and messages arrive out of order.\n\nThe CAP theorem (Brewer, 2000) states you can only guarantee two of: Consistency (every read sees the latest write), Availability (every request gets a response), and Partition tolerance (system continues despite network splits). Since partitions are inevitable in real networks, the practical choice is CP (consistent but may be unavailable during partitions) or AP (available but may return stale data).\n\nConsensus algorithms like Raft and Paxos solve the problem of getting multiple nodes to agree on a single value even in the presence of failures. Raft simplifies Paxos by decomposing consensus into leader election, log replication, and safety — making it easier to understand and implement correctly.\n\nData replication strategies range from single-leader (simple, bottleneck), multi-leader (complex, conflict resolution needed), to leaderless (Dynamo-style, high availability). Each trades simplicity for fault tolerance in different ways.\n\nThe key mental model: every distributed system is fundamentally about managing partial failures. Not 'will something fail?' but 'what do I do when part of my system fails while the rest continues?'"
+  full: "Distributed systems are one of the most intellectually demanding areas of software engineering. They force you to abandon comfortable assumptions — that function calls complete atomically, that you can read what you just wrote, that time is monotonic — and reason carefully about what guarantees you can actually provide.\n\n## The Core Problems\n\nEvery distributed system faces the same fundamental challenges:\n\n**Partial failure** is the defining characteristic. Unlike a single machine where failure is binary (it works or it doesn't), distributed systems fail partially. Node A is up, B is down, C is slow, and D is up but can't reach B. Your system must continue operating meaningfully in all these states.\n\n**Network unreliability** means that a message sent is not a message received. Packets are dropped, reordered, duplicated. A request might arrive twice or not at all. This makes it impossible to distinguish 'the remote server is down' from 'my network connection is slow' — a fundamental asymmetry that makes distributed systems hard.\n\n**Clock skew** means you can't use wall-clock time for ordering events. Two events timestamped 'at the same time' on different machines may have occurred in any order. Logical clocks (Lamport, vector clocks) and hybrid logical clocks provide causality tracking without relying on synchronized clocks.\n\n## CAP Theorem\n\nBrewers CAP theorem (formalized by Gilbert and Lynch) states that a distributed system can guarantee at most two of:\n- **C**onsistency: Every read returns the most recent write or an error\n- **A**vailability: Every request receives a (non-error) response\n- **P**artition tolerance: The system continues operating despite network partitions\n\nSince network partitions are a physical reality (cables break, switches fail, BGP routes flap), the real choice is between CP systems (Zookeeper, etcd, HBase) that refuse requests when partitioned to maintain consistency, and AP systems (Cassandra, CouchDB, Riak) that continue serving potentially stale data.\n\nThis is often misunderstood as a binary choice. In practice, the PACELC model extends CAP: even without partitions, you must trade off latency (L) vs consistency (C). This is why 'strongly consistent' systems with synchronous replication are slower — every write must wait for acknowledgment from a quorum of nodes.\n\n## Consensus\n\nConsensus — getting multiple nodes to agree on a single value — is the central problem of distributed systems. It underlies leader election, distributed locks, atomic broadcast, and replicated state machines.\n\nPaxos (Lamport, 1989/2001) was the first practical consensus algorithm but notoriously hard to understand. Raft (Ongaro & Ousterhout, 2014) addresses this by decomposing consensus into:\n1. **Leader election**: Only one node can be leader per term; a new leader is elected when the current leader fails\n2. **Log replication**: The leader accepts client requests, appends them to its log, and replicates to followers\n3. **Safety**: A leader is only elected if it has all committed entries; entries are only committed once acknowledged by a majority\n\nRaft underpins etcd (Kubernetes state store), CockroachDB, TiKV, and many other production systems.\n\n## Replication Strategies\n\n**Single-leader replication** (MySQL, PostgreSQL, MongoDB) is the simplest: one node accepts writes, others replicate. Easy to reason about but creates a bottleneck and single point of failure.\n\n**Multi-leader replication** (CouchDB, Dynamo-style) allows writes to any node. Higher availability and lower write latency, but requires conflict resolution. Last-write-wins (LWW) is simple but lossy. CRDTs (Conflict-free Replicated Data Types) provide merge semantics with mathematical guarantees.\n\n**Leaderless replication** (Amazon Dynamo, Cassandra) uses quorum reads and writes: a write is acknowledged when W nodes confirm it, a read returns data from R nodes. With W + R > N (total nodes), reads and writes overlap, providing a consistency guarantee. But 'sloppy quorums' and hinted handoff complicate this in practice.\n\n## What to Read Next\n\n- *Designing Data-Intensive Applications* (Kleppmann) — the best single resource\n- *The Part-Time Parliament* (Lamport) — original Paxos paper\n- *In Search of an Understandable Consensus Algorithm* (Ongaro) — Raft paper\n- Amazon Dynamo paper (2007) — foundational for leaderless replication"
+---
+
+Distributed systems are everywhere. Every time you open an app, your request touches databases with replicas, load balancers routing to fleets of servers, caches in data centers across the world. But the abstractions hiding this complexity are leaky — and when they leak, the failure modes are baffling unless you understand what's underneath.
+
+## Why Distributed Systems Are Hard
+
+The fundamental challenge is **partial failure**. On a single machine, failure is binary. In a distributed system, some nodes are up, some are down, some are slow, and the network between them is unreliable. Your code must cope with all combinations.
+
+## CAP Theorem
+
+You can only guarantee two of:
+- **Consistency** — reads always return the latest write
+- **Availability** — every request gets a response
+- **Partition tolerance** — system works despite network splits
+
+Since partitions happen in real networks, the real choice is **CP** (consistent, may reject during partition) vs **AP** (available, may serve stale data).
+
+## Consensus
+
+Raft and Paxos solve the core problem: getting a cluster of nodes to agree on a sequence of values even when some nodes fail. Understanding this is the key to understanding etcd, Zookeeper, and the distributed databases built on them.
+
+## Replication
+
+- **Single-leader**: Simple, bottleneck
+- **Multi-leader**: Complex conflict resolution required
+- **Leaderless (Dynamo-style)**: High availability via quorum reads/writes
+
+Each strategy trades simplicity for resilience differently. There is no free lunch.

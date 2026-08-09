@@ -1,0 +1,25 @@
+---
+title: "Your Article Title"
+author: "Your Name"
+date: 2026-06-29
+type: article
+category: "Engineering"
+tags: [tag1, tag2, tag3]
+estimated_read_time: 10
+is_own_work: true
+# gists are optional — run: npm run gists -- content/articles/this-file.qmd
+# gists:
+#   quick: ""
+#   medium: ""
+#   full: ""
+---
+
+Write your article content here in standard Markdown.
+
+## Section Heading
+
+Your content...
+
+## Another Section
+
+More content...

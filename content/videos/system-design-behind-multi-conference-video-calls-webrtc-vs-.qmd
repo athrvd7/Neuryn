@@ -1,0 +1,70 @@
+---
+title: "System Design Behind Multi-Conference Video Calls - WebRTC vs SFU vs MCU"
+author: "Piyush Garg"
+author_url: "https://www.youtube.com/@piyushgargdev"
+date: 2026-06-30
+type: "video"
+category: "Engineering"
+tags: ["WebRTC", "System Design", "Video Conferencing", "SFU", "MCU", "Distributed Systems"]
+video_url: "https://www.youtube.com/embed/Zaz6hYVm-WE"
+source_url: "https://www.youtube.com/watch?v=Zaz6hYVm-WE"
+estimated_read_time: 12
+is_own_work: false
+gists:
+  short: "Building scalable multi-user video conferencing requires moving beyond simple peer-to-peer connections. WebRTC enables direct P2P communication, but mesh topologies become unmanageable as users scale. Instead, industry solutions introduce server-side forwarding units (SFU) or mixing units (MCU) to centralize stream handling—SFU forwards individual streams efficiently while MCU mixes them into a single composite stream, each with distinct trade-offs in bandwidth, latency, and computational cost."
+  long: "A multi-conference application enables more than two participants to communicate via video and audio simultaneously, similar to Zoom or Google Meet. The challenge lies in architecting scalable solutions given real-time transmission requirements and the need to coordinate multiple audio/video streams.\n\nPeer-to-Peer (P2P) Communication: WebRTC was originally designed for direct peer-to-peer connections over UDP, which is fast and requires no server infrastructure. When only two participants are involved, this works perfectly—each peer sends its audio and video streams directly to the other. The advantage is near-zero server costs; bandwidth costs are minimal since communication is direct between clients.\n\nLimitations of Pure P2P: Problems emerge when a third participant joins. To include multiple people while staying peer-to-peer, you must establish a mesh topology where every peer opens a direct connection with every other peer. For three peers, this is manageable—peer 1 connects to peer 2, peer 1 to peer 3, and peer 2 to peer 3. However, when a fourth peer joins, all existing peers must re-establish connections to the newcomer, and the newcomer must connect to all existing peers. The number of connections grows exponentially: with n peers, there are n×(n-1)/2 total connections. With 12 participants, a single peer must maintain 11 concurrent P2P connections, consuming massive computational resources and bandwidth. This becomes non-scalable, fault-intolerant, and prone to crashes. Debugging is also extremely difficult.\n\nServer-Side Forwarding Units (SFU): The industry recognized that P2P mesh doesn't scale for multiple participants. The solution was to introduce a central forwarding server. Instead of connecting directly to all other peers, each peer maintains a single P2P connection to the server—compliant with WebRTC's peer-to-peer model. All participants send their audio and video streams to the server via this single connection. The server, acting as a forwarding unit, receives all individual streams and broadcasts (forwards) each one back to all other connected peers. This reduces the per-peer computational burden to managing a single connection while the server handles the complexity of receiving and forwarding multiple streams.\n\nMCU (Multipoint Control Unit): An alternative architecture involves the server mixing or combining all incoming streams into a single composite stream. Instead of forwarding individual streams, the MCU receives all streams, mixes them together (combining audio, compositing video), and sends back one combined stream to each peer. This reduces bandwidth requirements on the client side since each peer only receives one stream instead of multiple, but it shifts all computational burden to the server.\n\nThe Speaker's Explanation Process: The speaker uses analogies and visual step-by-step explanations to clarify these concepts. He first establishes what a \"peer\" is (any participant), then explains how two peers can communicate directly via WebRTC. He then progressively introduces the problem: as more peers join, the mesh becomes too complex. Finally, he introduces the forwarding unit solution, showing how centralization allows the server to manage complexity while each peer maintains minimal responsibility (one connection, sending streams, receiving combined or forwarded streams).\n\nKey Architectural Insight: All three architectures (P2P, Mesh P2P, SFU/MCU) use WebRTC at the client-server level because WebRTC only permits peer-to-peer connections. The \"server\" in SFU/MCU is treated as another peer by each client. The server becomes the centralized hub, managing multiple peer-to-peer connections with different clients simultaneously. This elegantly solves the scalability problem while respecting WebRTC's constraints.\n\nTrade-offs: P2P offers minimal cost but doesn't scale beyond 2-3 participants. Mesh P2P scales somewhat but becomes exponentially complex. SFU provides good scalability with moderate server bandwidth (forwarding multiple streams). MCU reduces client bandwidth but increases server computational load (mixing streams). The choice depends on application requirements around scalability, latency tolerance, and server resource constraints."
+---
+
+Deep dive into the architectural patterns behind multi-conference video applications, comparing P2P, mesh, SFU, and MCU approaches for scalability.
+
+
+## Chapters
+
+### `0:00` — Introduction and Multi-Conference Basics
+
+The speaker introduces the concept of multi-conference applications (like Zoom and Google Meet) where multiple participants communicate via video and audio simultaneously. He outlines the main topics to be covered: P2P, WebRTC, SFU, MCU, and how to scale these architectures.
+
+### `0:45` — Peer Definition and Simple P2P
+
+Defines the term 'peer' as any participant in a communication session. Explains how WebRTC enables direct peer-to-peer communication over UDP between exactly two peers, with no server involvement, making it cost-effective.
+
+### `3:00` — Mesh P2P Topology for Multiple Peers
+
+Introduces mesh topology where every peer establishes a direct P2P connection with every other peer. While technically possible with WebRTC, this becomes complex and unscalable as the number of participants grows beyond 3-4.
+
+### `5:54` — Scalability Problems with Mesh Architecture
+
+Explains why mesh P2P fails to scale: exponential growth in connections, high computational load on individual peers, difficulty debugging, frequent crashes, and poor fault tolerance. With 12 participants, managing 11 concurrent connections per peer is impractical.
+
+### `7:28` — Introduction to Server-Side Solutions
+
+Identifies the need for a central server to manage multiple participants. Introduces the concept of a forwarding unit—a server that acts as a central hub, allowing each peer to maintain only a single P2P connection instead of connecting to all other peers.
+
+### `8:01` — SFU Architecture and Stream Forwarding
+
+Details how a forwarding unit works: each peer sends its audio and video streams to the server via a single P2P connection. The server collects all incoming streams and forwards each individual stream back to all other connected peers in real-time.
+
+### `10:13` — Practical Implementation of Forwarding Unit
+
+Walks through a concrete example with five peers. Each peer maintains one connection to the server, sends its streams, and receives a combined or forwarded stream back. This dramatically simplifies the architecture compared to mesh while respecting WebRTC's P2P constraints.
+
+### `11:25` — MCU Alternative - Mixing vs Forwarding
+
+Contrasts the forwarding unit (SFU) approach with an MCU (Multipoint Control Unit) that mixes all incoming streams into a single composite stream, reducing client-side bandwidth requirements but increasing server computational complexity.
+
+## Notable Quotes
+
+> "WebRTC stands for Web Real Time Connections and enables peer-to-peer communication directly without any server involvement."
+> — `2:20`
+
+> "In a peer-to-peer connection, there is no server. You can directly connect this peer to this peer."
+> — `2:48`
+
+> "The problem comes as soon as a fourth peer arrives—this is not something scalable. This is not a scalable solution."
+> — `6:31`
+
+> "Imagine what happens if 10 to 12 people are there. So many peer-to-peer connections are going to be there and this is absolutely not fault tolerant."
+> — `6:39`
+
+> "If we have a server in between, each client only needs to make one peer-to-peer connection to the server, and the server is big enough to have multiple connections."
+> — `8:48`

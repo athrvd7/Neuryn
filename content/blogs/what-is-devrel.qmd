@@ -1,0 +1,137 @@
+---
+title: "What Is DevRel? The Bridge That Actually Matters"
+author: "Rajdeep Singha"
+date: 2026-06-29
+type: blog
+category: "Developer Relations"
+tags: [devrel, community, developer-experience, product]
+estimated_read_time: 7
+is_own_work: true
+---
+
+Ask ten people what DevRel means and you'll probably hear the same answers — community manager, Twitter person, hackathon organizer, or someone giving talks with company swag.
+
+And honestly, that's exactly why DevRel remains one of the most misunderstood roles in tech.
+
+The problem isn't that these activities are unrelated to DevRel. The problem is that people mistake the visible parts of the job for the entire role.
+
+## Where the Misunderstanding Comes From
+
+We often see DevRels posting tweets and sharing their views on Twitter regularly, and people start assuming that's all there is to it. But DevRel is much more than yapping on Twitter. What people think a DevRel does is just a small part of the role — the part that is visible: showcasing the product.
+
+People see:
+
+- Conference talks
+- Events and hackathons
+- Memes and Discord activity
+- Twitter presence
+- Branded swag
+
+![What DevRel is actually about vs what people think](/images/devrel-venn.png)
+
+So naturally they assume: *"DevRel is basically marketing for developers."*
+
+But that definition is incomplete — and sometimes completely wrong.
+
+## So What Is DevRel?
+
+At its core, Developer Relations (DevRel) is **the bridge between developers and the products they build with.**
+
+For a long time, DevRel has been reduced to what people see on the surface — conference talks, hackathons, Twitter threads, community spaces, or branded swag. While those activities can be part of the role, they are not the role itself.
+
+DevRel exists to solve a much deeper problem: **helping developers succeed while helping products understand developers better.**
+
+Think of it as a two-way relationship.
+
+On one side are developers — builders who need clear documentation, reliable tooling, learning resources, support, and a smooth onboarding experience. On the other side are product and engineering teams trying to build technology people actually want to use.
+
+This is where DevRel steps in.
+
+**A DevRel team helps developers by:**
+
+- Simplifying onboarding and learning
+- Improving access to technical resources
+- Creating educational content and demos
+- Supporting communities and builders
+
+**At the same time, DevRel works internally by:**
+
+- Collecting real developer feedback
+- Identifying pain points in APIs or tooling
+- Sharing ecosystem insights with product teams
+- Helping engineering understand builder needs
+
+> This is a guide I wrote on decoding whale wallet trackers while working with GoldRush. First I had to build the product, then write the article out of it — it took almost a month to wrap up 3 parts. This is why DevRel is often misunderstood. People notice the outward-facing work, but much of the real impact happens behind the scenes.
+
+A good DevRel team is not simply promoting technology. It is making technology easier to understand, easier to adopt, and ultimately more valuable for the people building with it.
+
+## DevRel Is a Two-Way Bridge
+
+One of the biggest misconceptions about DevRel is that its role is simply to speak *to* developers.
+
+Real DevRel is not a one-way broadcast. It is a two-way bridge.
+
+On one side, DevRel communicates **to** developers — helping them understand products, navigate tooling, learn new technologies, and build with confidence. This includes creating educational resources, improving onboarding, supporting communities, and lowering the barrier to entry.
+
+But the other side is often overlooked.
+
+![DevRel as a two-way bridge between Developers and Product/Engineering](/images/devrel-bridge.png)
+
+**DevRel also speaks *for* developers.** This is where the role becomes strategically important.
+
+Developers are usually the first to experience friction inside an ecosystem. Maybe the SDK is difficult to implement. Maybe the documentation skips crucial steps. Maybe the API feels inconsistent, or the onboarding flow creates unnecessary confusion.
+
+A strong DevRel team notices all of this — the repeated questions in Discord, where workshop participants get stuck, which tutorials fail, which integrations break. And this feedback doesn't stop at community conversations.
+
+A strong DevRel team translates those signals back into product and engineering decisions. They help answer questions like:
+
+- Why are developers dropping off during onboarding?
+- Which tools are creating friction?
+- What feedback appears repeatedly across the community?
+- What needs to improve for builders to keep shipping?
+
+This is why DevRel cannot be reduced to marketing or community management alone.
+
+- **Marketing** drives awareness.
+- **Support** solves immediate issues.
+- **DevRel** creates a feedback loop between developers and the people building the product.
+
+And in many ecosystems, that loop becomes the difference between temporary attention and long-term adoption.
+
+At its best, DevRel is not merely advocating for a product. It is advocating for a better developer experience — and ensuring that builders have a voice inside the product itself.
+
+## How to Be a DevRel
+
+One of the most common questions people ask is: *"How do you become a DevRel?"*
+
+The interesting part is that there is no single path.
+
+Unlike traditional roles with fixed requirements, DevRel sits at the intersection of technology, communication, and community. Some DevRels come from engineering backgrounds, others from community building, education, or product roles.
+
+**First, you need genuine curiosity about technology and builders.** DevRel is not just about understanding products — it is about understanding the people building with them and the problems they face.
+
+Good DevRel work is built on experimentation. It requires exploring products deeply, building with them firsthand, testing different approaches, shipping real experiences, and understanding where developers struggle.
+
+The goal is not merely to showcase a product. It is to make the journey from *"this looks interesting"* to *"I can build with this seamlessly"* feel effortless. Behind every polished tutorial or smooth onboarding experience lies experimentation, iteration, and a deep understanding of developer needs.
+
+**Second, communication matters just as much as technical knowledge.** A great DevRel can explain complex ideas clearly, teach effectively, and create spaces where developers feel supported rather than sold to.
+
+**Third, building credibility is essential.** Developers trust people who build, experiment, and learn alongside them. This doesn't mean you need to be the best engineer in the room, but you do need hands-on experience and a willingness to stay technical.
+
+**And finally, community is at the heart of DevRel.** Whether through documentation, workshops, hackathons, online discussions, or feedback collection, the role is fundamentally about helping people succeed.
+
+There is no universal DevRel checklist. But if you enjoy technology, love helping developers, and care about improving the experience of building — you may already be closer to DevRel than you think.
+
+## Conclusion: The Bridge That Matters
+
+Maybe DevRel is misunderstood because people only see the spotlight — the talks, the tweets, the hackathons, the public-facing work.
+
+But behind that visibility is something far more important.
+
+**DevRel exists to build trust between developers and products.**
+
+It helps developers succeed while helping companies listen better, improve faster, and create experiences worth building on. Because in the end, developers do not stay for marketing.
+
+They stay for great tooling, clear documentation, strong communities, and products that genuinely understand their needs.
+
+And that is where DevRel creates its real impact — not as a loudspeaker for technology, but as the bridge that makes technology usable, valuable, and worth adopting.
