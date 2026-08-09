@@ -83,7 +83,7 @@ neuryn/
 ### Install
 
 ```bash
-git clone https://github.com/athrvd7/ml-fifa.git neuryn
+git clone https://github.com/athrvd7/Neuryn.git neuryn
 cd neuryn
 npm install
 cd web && npm install && cd ..
