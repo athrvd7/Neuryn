@@ -10,6 +10,11 @@ if (!url || !anonKey) {
   )
 }
 
-export const supabase = createClient(url ?? '', anonKey ?? '')
+// Keep the public site renderable even before Supabase is configured in Vercel.
+// Auth actions remain disabled by the login page until real variables exist.
+export const supabase = createClient(
+  url || 'https://placeholder.supabase.co',
+  anonKey || 'placeholder-anon-key',
+)
 
 export const isSupabaseConfigured = Boolean(url && anonKey)
